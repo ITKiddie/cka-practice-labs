@@ -35,6 +35,8 @@ delete_ns() {
 wait_rollout() {
   local ns=$1 deploy
   shift
+  # "setup all" waits once for every deployment at the end instead.
+  if [[ -n ${CKA_SETUP_ALL:-} ]]; then return 0; fi
   info "Waiting for the pods to be ready..."
   for deploy in "$@"; do
     kubectl rollout status "deploy/$deploy" -n "$ns" --timeout=180s >/dev/null 2>&1 \
@@ -50,6 +52,7 @@ no_setup_needed() {
 }
 
 scenario_ready() {
+  if [[ -n ${CKA_SETUP_ALL:-} ]]; then ok "Done."; return 0; fi
   ok "Scenario ready. Now solve the question shown in the video."
   info "Video solutions: $PLAYLIST_URL"
 }
