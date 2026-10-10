@@ -26,11 +26,14 @@ When new scenarios are added, run `git pull` inside the `cka-practice-labs` fold
 
 ## Commands
 
+Replace `2` with the number of the scenario you want (1 to 17). Type only the number, for example `./cka.sh setup 7`.
+
 | Command | What it does |
 |---|---|
 | `./cka.sh list` | Lists the scenarios. |
-| `./cka.sh setup <n>` | Prepares scenario `n`. Running it again resets the scenario to its starting point. |
-| `./cka.sh cleanup <n>` | Deletes what scenario `n` created. |
+| `./cka.sh setup 2` | Prepares scenario 2. Running it again resets the scenario to its starting point. |
+| `./cka.sh cleanup 2` | Deletes what scenario 2 created. |
+| `./cka.sh setup` | Shows the scenarios and asks which one to prepare. |
 | `./cka.sh setup all` | Prepares every scenario at once, except 4 and 14. |
 
 ## Scenarios
@@ -81,7 +84,8 @@ Each folder in [`scenarios/`](scenarios) contains the YAML files from the guide 
 4. Resuelve la pregunta del vídeo. Todas las soluciones están en la playlist: <https://www.youtube.com/playlist?list=PLkDZsCgo3Isr4NB5cmyqG7OZwYEx5XOjM>
 
 - `./cka.sh list` muestra todos los escenarios.
-- Volver a ejecutar `./cka.sh setup <n>` deja el escenario como al principio. `./cka.sh cleanup <n>` lo borra.
+- Cambia el `2` por el número del escenario que quieras (del 1 al 17). Escribe solo el número, por ejemplo `./cka.sh setup 7`. Si escribes `./cka.sh setup` sin número, te muestra la lista y te pregunta.
+- Volver a ejecutar `./cka.sh setup 7` deja el escenario 7 como al principio. `./cka.sh cleanup 7` lo borra.
 - El escenario 14 rompe el clúster a propósito. Déjalo para el final, o restaura el clúster con `./cka.sh cleanup 14`.
 - Para descargar escenarios nuevos, ejecuta `git pull` dentro de la carpeta `cka-practice-labs`.
 

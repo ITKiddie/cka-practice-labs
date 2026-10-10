@@ -14,16 +14,12 @@ ALL_SKIP=" 04 14 "
 
 usage() {
   cat <<EOF
-Usage: ./cka.sh <command> [scenario]
-
-Commands:
-  list            List the scenarios
-  setup <n>       Prepare scenario <n>. Running it again resets the scenario.
-  cleanup <n>     Delete what scenario <n> created
-  setup all       Prepare every scenario except 4 and 14
-
-Example:
-  ./cka.sh setup 2
+Usage (replace 2 with the number of the scenario you want):
+  ./cka.sh list          List the scenarios
+  ./cka.sh setup 2       Prepare scenario 2. Running it again resets the scenario.
+  ./cka.sh cleanup 2     Delete what scenario 2 created
+  ./cka.sh setup         Show the scenarios and ask which one to prepare
+  ./cka.sh setup all     Prepare every scenario except 4 and 14
 
 Video solutions: $PLAYLIST_URL
 EOF
@@ -77,16 +73,22 @@ case ${1:-} in
     list_scenarios
     ;;
   setup | cleanup)
-    if [[ $# -lt 2 ]]; then usage; exit 1; fi
-    if [[ $1 == setup && $2 == all ]]; then setup_all; exit 0; fi
-    dir=$(scenario_dir "$2")
+    n=${2:-}
+    if [[ -z $n ]]; then
+      if [[ ! -t 0 ]]; then usage; exit 1; fi
+      list_scenarios
+      printf '\n'
+      read -r -p "Type the number of the scenario: " n
+    fi
+    if [[ $1 == setup && $n == all ]]; then setup_all; exit 0; fi
+    dir=$(scenario_dir "$n")
     if [[ $1 == setup ]]; then
       run_setup "$dir"
     elif [[ -f $dir/cleanup.sh ]]; then
       bash "$dir/cleanup.sh"
-      ok "Scenario $2 cleaned up."
+      ok "Scenario $n cleaned up."
     else
-      ok "Scenario $2 does not create anything, so there is nothing to clean up."
+      ok "Scenario $n does not create anything, so there is nothing to clean up."
     fi
     ;;
   '' | -h | --help | help)
